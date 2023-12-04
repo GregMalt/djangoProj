@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Item Detail</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add any necessary CSS or stylesheets -->
+    <style>
+        /* Additional styling */
+
+        .rating {
+            unicode-bidi: bidi-override;
+            direction: ltr;
+        }
+
+        .checked {
+            color: orange;
+        }
+
+        .rating>span:hover~span:before {
+            color: lightgray;
+        }
+
+        body {
+            background-color: #f3f7f7;
+            color: #343a40;
+            font-family: Arial, sans-serif;
+        }
+
+        .product-details {
+            margin-top: 50px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            text-align: center;
+        }
+
+        /* Custom styling for recommended items */
+        .recommended-items {
+            margin-top: 30px;
+            background-color: #f3f7f7;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .recommended-items h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #343a40;
+        }
+
+        .recommended-items .card {
+            transition: transform 0.3s ease;
+            border: none;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .recommended-items .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .recommended-items .card img {
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        .recommended-items .card-body {
+            padding: 1.25rem;
+        }
+
+        .recommended-items .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #343a40;
+        }
+
+        .recommended-items .card-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        /* Home button styling */
+        .home-btn {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* Add any new styling for the rating */
+        .stars {
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Item Details</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="product-details">
+                    <h2>{{ item.name }}</h2>
+                    <p>Category: {{ item.category.name }}</p>
+                    <p>Price: ${{ item.price }}</p>
+                    <p>Description: {{ item.description }}</p>
+                </div>
+            </div>
+            <div class="col-md-6 product-image">
+                <img src="{{ item.image.url }}" alt="Item Image" class="img-fluid">
+                {% if not item.image %}
+                    <p>No Image Available</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Display recommendations -->
+        <div class="recommended-items">
+            <h2>Recommended Items</h2>
+            <div class="row">
+                {% if recommended_items %}
+                    {% for recommended_item in recommended_items %}
+                        <div class="col-md-4 mb-4">
+                            <a href="{% url 'item_detail' recommended_item.id %}" class="text-decoration-none">
+                                <div class="card bg-light">
+                                    {% if recommended_item.image %}
+                                        <img src="{{ recommended_item.image.url }}" class="card-img-top" alt="Recommended Item Image">
+                                    {% else %}
+                                        <p>No Image Available</p>
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <h5 class="card-title text-primary">{{ recommended_item.name }}</h5>
+                                        <p class="card-text">
+                                            Category: <span class="text-info">{{ recommended_item.category.name }}</span><br>
+                                            Price: <span class="text-success">${{ recommended_item.price }}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col">
+                        <p>No recommended items found</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Home button -->
+        <a href="{% url 'index' %}" class="btn btn-primary home-btn">Back to Catalog</a>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   
+</body>
+</html>

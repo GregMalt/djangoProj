@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Items Display</title>
+</head>
+<body>
+    <h1>Items</h1>
+    <ul>
+        {% for item in all_items %}
+            <li>
+                ID: {{ item.id }},
+                Name: {{ item.name }},
+                Category: {{ item.category.name }},
+                Price: {{ item.price }},
+                <p>Description: {{ item.description }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
