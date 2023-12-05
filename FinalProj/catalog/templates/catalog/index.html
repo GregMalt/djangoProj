@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         /* Your existing styles */
 
@@ -51,21 +53,83 @@
     
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-right">
-                <!-- Profile icon and Logout button -->
-                <a href="{% url 'view_profile' %}" class="profile-btn">
-                    <!-- Bootstrap user icon -->
-                    <i class="bi bi-person-circle"></i>
+</head>
+<body>
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <!-- Brand/logo to the left -->
+                <!-- Replace this image source with your actual logo -->
+                <a class="navbar-brand mr-auto" href="#">
+                    <img src="\media\item_images\Screenshot_1-removebg-preview.png" width="120" height="50" class="d-inline-block align-top" alt="Logo">
                 </a>
-                <a href="{% url 'logout' %}" class="btn btn-primary btn-sm logout-btn">Logout</a>
-                {% if user.is_superuser %}
-                    <a href="{% url 'admin:index' %}" class="btn btn-success btn-sm manage-btn">Manage</a>
-                {% endif %}
+
+                <!-- Navbar toggler button -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Collapsible content -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <!-- Home and About Us links on the left -->
+                    <ul class="navbar-nav ml-1">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'about_us' %}">About Us</a>
+                            
+                        </li>
+                    </ul>
+
+                    <!-- Profile, Logout, and Manage buttons -->
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'view_profile' %}">
+                                <i class="bi bi-person-circle"></i> Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">
+                                <i class="bi bi-box-arrow-right"></i> Logout
+                            </a>
+                        </li>
+                        {% if user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'admin:index' %}">
+                                    <i class="bi bi-tools"></i> Manage
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container mt-3">
+        <div class="row justify-content-end">
+            <div class="col-md-3 text-right">
+                <form method="get" action="{% url 'index' %}">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="min_price">Min Price:</label>
+                            <input type="number" id="min_price" name="min_price" class="form-control" value="{{ min_price }}" placeholder="Min Price">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="max_price">Max Price:</label>
+                            <input type="number" id="max_price" name="max_price" class="form-control" value="{{ max_price }}" placeholder="Max Price">
+                        </div>
+                        <div class="form-group col-md-2 align-self-end">
+                            <button type="submit" class="btn btn-primary">Filter</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="row">
+    </div>
+    <div class="container mt-4">
             <div class="col-md-12 text-right">
                 <!-- Your table content -->
                 <table id="items-table" class="table table-striped table-bordered">
@@ -99,12 +163,17 @@
                                 <td>
                                     <div class="rating" data-item-id="{{ item.id }}">
                                         {% for i in "12345" %}
-                                            <span class="star" data-value="{{ i }}">☆</span>
+                                            {% if i <= item.item_rating %}
+                                                <span class="star checked" data-value="{{ i }}">★</span>
+                                            {% else %}
+                                                <span class="star" data-value="{{ i }}">☆</span>
+                                            {% endif %}
                                         {% endfor %}
                                     </div>
                                 </td>
+                                                             
                                 <td>
-                                    {{ item.reviews.count }}
+                                    <span class="rating-count" data-item-id="{{ item.id }}"></span>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -130,6 +199,33 @@
             </div>
         </div>
     </div>
+    <footer class="bg-dark text-light text-center">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-md-5">
+                    <a class="navbar-brand mr-auto" href="#">
+                        <img src="\media\item_images\Screenshot_1-removebg-preview.png" width="120" height="50" class="d-inline-block align-top" alt="Logo">
+                    </a>
+                    <p>&copy; 2023 Groutz. All rights reserved.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Email: Groutz@gmail.com</a></li>
+                        <li><a href="#">Phone: +1 (123) 456-7890</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Follow Us</h5>
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a></li>
+                        <li class="list-inline-item"><a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                        <li class="list-inline-item"><a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -140,69 +236,94 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
     <script>
         $(document).ready(function () {
-            $('#items-table').DataTable();
-
+            $('#items-table').DataTable({
+            // Specify the orderable property for each column
+            "columnDefs": [
+                { "orderable": false, "targets": [4, 5] } // Indexes 4 and 5 are for Description and Image columns, respectively
+            ]
+        });
+    
             $('.rating').each(function () {
-        const itemId = $(this).data('item-id');
-        const stars = $(this).find('.star');
-
-        stars.on('click', function () {
-            const rating = $(this).attr('data-value');
-
-            // Retrieve CSRF token from cookies
-            const csrftoken = document.cookie
-                .split('; ')
-                .find(row => row.startsWith('csrftoken='))
-                .split('=')[1];
-
-            $.ajax({
-                url: `/rate_item/${itemId}/`,
-                method: 'POST',
-                headers: { 'X-CSRFToken': csrftoken }, // Include CSRF token in headers
-                data: { rating: rating },
-                success: function (data) {
-                    if (data.message === 'Success') {
-                        const newRating = data.new_rating;
-
-                        for (let i = 0; i < stars.length; i++) {
-                            if (i < newRating) {
-                                $(stars[i]).text('★'); // Replace with filled star icon
+                const itemId = $(this).data('item-id');
+                const stars = $(this).find('.star');
+    
+                stars.on('click', function () {
+                    const rating = $(this).attr('data-value');
+    
+                    const csrftoken = document.cookie
+                        .split('; ')
+                        .find(row => row.startsWith('csrftoken='))
+                        .split('=')[1];
+    
+                    $.ajax({
+                        url: `/rate_item/${itemId}/`,
+                        method: 'POST',
+                        headers: { 'X-CSRFToken': csrftoken },
+                        data: { rating: rating },
+                        success: function (data) {
+                            if (data.message === 'Success') {
+                                const newRating = data.new_rating;
+    
+                                for (let i = 0; i < stars.length; i++) {
+                                    if (i < newRating) {
+                                        $(stars[i]).text('★');
+                                    } else {
+                                        $(stars[i]).text('☆');
+                                    }
+                                }
                             } else {
-                                $(stars[i]).text('☆'); // Replace with empty star icon
+                                console.error('Failed to update rating');
                             }
+                        },
+                        error: function (err) {
+                            console.error('Error:', err);
                         }
-                    } else {
-                        console.error('Failed to update rating');
-                    }
-                },
-                error: function (err) {
-                    console.error('Error:', err);
-                }
+                    });
+                });
             });
+    
+            // Fetch ratings for each item asynchronously
+            const itemElements = document.querySelectorAll('.rating');
+            itemElements.forEach(item => {
+                const itemId = item.getAttribute('data-item-id');
+                fetch(`/get_ratings/${itemId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const itemRating = data.rating;
+                        const stars = item.querySelectorAll('.star');
+    
+                        stars.forEach((star, index) => {
+                            if (index < itemRating) {
+                                star.textContent = '★';
+                            } else {
+                                star.textContent = '☆';
+                            }
+                        });
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+    
+            // Fetch ratings count for each item asynchronously
+            $('.rating-count').each(function () {
+        const itemId = $(this).data('item-id');
+        const ratingCountContainer = $(this);
+
+        $.ajax({
+            url: `/get_ratings_count/${itemId}/`,
+            method: 'GET',
+            success: function (data) {
+                const ratingCount = data.rating_count;
+                ratingCountContainer.text(`(${ratingCount} ratings)`);
+            },
+            error: function (err) {
+                console.error('Error:', err);
+            }
         });
     });
 });
-document.addEventListener('DOMContentLoaded', function() {
-    // Fetch ratings for each item asynchronously
-    const itemElements = document.querySelectorAll('.rating');
-    itemElements.forEach(item => {
-        const itemId = item.getAttribute('data-item-id');
-        fetch(`/get_ratings/${itemId}/`)
-            .then(response => response.json())
-            .then(data => {
-                const itemRating = data.rating;
-                // Update the HTML to display the fetched rating for this item
-                // You might use this rating to update the stars or any other representation on the page
-                // For example, if you have a span with a class "stars", you might update its innerHTML accordingly
-                item.querySelector('.stars').innerHTML = generateStars(itemRating);
-            })
-            .catch(error => console.error('Error:', error));
-    });
-});
-
     </script>
+   
 </body>
 </html>

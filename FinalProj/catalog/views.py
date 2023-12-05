@@ -22,13 +22,27 @@ def index(request):
         recently_viewed_items = [
             get_object_or_404(Item, id=item_id) for item_id in recently_viewed_ids
         ]
+
+        # Fetch price filter values from the request
+        min_price = request.GET.get('min_price')
+        max_price = request.GET.get('max_price')
+
+        # Filter items based on price range if provided
+        if min_price and max_price:
+            all_items = all_items.filter(price__range=(min_price, max_price))
+
         return render(
             request,
             'catalog/index.html',
-            {'all_items': all_items, 'recently_viewed_items': recently_viewed_items, 'all_items_json': all_items_json}
+            {
+                'all_items': all_items,
+                'recently_viewed_items': recently_viewed_items,
+                'all_items_json': all_items_json,
+                'min_price': min_price,
+                'max_price': max_price,
+            }
         )
     return redirect('login')
-
 
 def register(request):
     if request.method == 'POST':
@@ -152,3 +166,19 @@ def update_rating(request, item_id):
     return JsonResponse({'message': 'Error'})
 
 
+from django.http import JsonResponse
+
+def get_ratings_count(request, item_id):
+    item = get_object_or_404(Item, pk=item_id)
+    rating_count = Rating.objects.filter(item=item).count()
+    return JsonResponse({'rating_count': rating_count})
+
+
+
+
+from django.shortcuts import render
+
+
+def about_us(request):
+    # Render the 'about_us.html' template
+    return render(request, 'catalog/about_us.html')
