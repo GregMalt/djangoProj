@@ -5,6 +5,10 @@
     <title>Item Detail</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+       <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
     <!-- Add any necessary CSS or stylesheets -->
     <style>
         /* Additional styling */
@@ -55,6 +59,8 @@
             color: #343a40;
         }
 
+
+        
         .recommended-items .card {
             transition: transform 0.3s ease;
             border: none;
@@ -74,6 +80,7 @@
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
         }
+    
 
         .recommended-items .card-body {
             padding: 1.25rem;
@@ -102,9 +109,64 @@
             font-size: 24px;
             cursor: pointer;
         }
+        
     </style>
 </head>
 <body>
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <!-- Brand/logo to the left -->
+                <!-- Replace this image source with your actual logo -->
+                <a class="navbar-brand mr-auto" href="#">
+                    <img src="\media\item_images\Screenshot_1-removebg-preview.png" width="120" height="50" class="d-inline-block align-top" alt="Logo">
+                </a>
+
+                <!-- Navbar toggler button -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Collapsible content -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <!-- Home and About Us links on the left -->
+                    <ul class="navbar-nav ml-1">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'about_us' %}">About Us</a>
+                            
+                        </li>
+                    </ul>
+
+                    <!-- Profile, Logout, and Manage buttons -->
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'view_profile' %}">
+                                <i class="bi bi-person-circle"></i> Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">
+                                <i class="bi bi-box-arrow-right"></i> Logout
+                            </a>
+                        </li>
+                        {% if user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'admin:index' %}">
+                                    <i class="bi bi-tools"></i> Manage
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav> 
+    </header>
+
     <div class="container">
         <h1 class="text-center">Item Details</h1>
         <div class="row">
@@ -156,13 +218,52 @@
                 {% endif %}
             </div>
         </div>
-
-        <!-- Home button -->
+    </div>
+    <div  class="container">
         <a href="{% url 'index' %}" class="btn btn-primary home-btn">Back to Catalog</a>
     </div>
+         <!-- Home button -->
+         
+    
+<!-- Footer -->
+
+<footer class="bg-dark text-light text-center mt-4">
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-md-5">
+                <a class="navbar-brand mr-auto" href="#">
+                    <img src="\media\item_images\Screenshot_1-removebg-preview.png" width="120" height="50" class="d-inline-block align-top" alt="Logo">
+                </a>
+                <p>&copy; 2023 Groutz. All rights reserved.</p>
+            </div>
+            <div class="col-md-3">
+                <h5>Contact Us</h5>
+                <ul class="list-unstyled contact-info">
+                    <li><i class="fas fa-envelope"></i> <a href="mailto:Groutz@gmail.com" target="_blank">Groutz@gmail.com</a></li>
+                    <li><i class="fas fa-phone"></i> <a href="tel:+11234567890" target="_blank">+1 (123) 456-7890</a></li>
+                    <li><i class="fas fa-map-marker-alt"></i> <a href="https://maps.app.goo.gl/Hn8Xg6WEgZJvuKyx7" target="_blank">123 Main Street, Cityville, Country</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h5>Follow Us</h5>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a></li>
+                    <li class="list-inline-item"><a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                    <li class="list-inline-item"><a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+   
 
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-   
+     <!-- Bootstrap Icons -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.25.0/dist/js/bootstrap-icons.min.js"></script>
+     <!-- jQuery CDN -->
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <!-- Bootstrap JS -->
 </body>
 </html>

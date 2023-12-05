@@ -49,6 +49,53 @@
             text-decoration: none;
             color: #007bff;
         }
+
+        #items-table img {
+        width: 80px; /* Adjust the width as needed */
+        height: 60px; /* Adjust the height as needed */
+    }
+
+    /* Enlarge rating stars */
+    .rating .star {
+        font-size: 16px; /* Adjust the font size of the stars */
+        margin-right: 5px; /* Add a margin to the right to create space between stars */
+        margin-top: 10px; /* Add a margin to the top to create space between stars */
+    }
+
+    /* Increase width of the rating column */
+    #items-table th:nth-child(7),
+    #items-table td:nth-child(7) {
+        width: 120px; /* Adjust the width of the column as needed */
+    }
+        
+    /* ... your existing styles ... */
+
+    /* Enlarge product images in the table */
+    #items-table img {
+        width: 70px; /* Adjust the width as needed */
+        height: 70px; /* Adjust the height as needed */
+    }
+
+    /* Enlarge rating stars */
+    .rating .star {
+        font-size: 20px; /* Adjust the font size of the stars */
+        margin-right: 5px; /* Add a margin to the right to create space between stars */
+    }
+
+    /* Increase width of the rating column */
+    #items-table th:nth-child(7),
+    #items-table td:nth-child(7) {
+        width: 120px; /* Adjust the width of the column as needed */
+        text-align: center; /* Center align the content in the column */
+    }
+
+    /* Center align all content in table cells */
+    #items-table td,
+    #items-table th {
+        text-align: center; /* Center align all content in table cells */
+    }
+</style>
+
     </style>
     
 </head>
@@ -199,33 +246,36 @@
             </div>
         </div>
     </div>
-    <footer class="bg-dark text-light text-center">
-        <div class="container py-4">
-            <div class="row">
-                <div class="col-md-5">
-                    <a class="navbar-brand mr-auto" href="#">
-                        <img src="\media\item_images\Screenshot_1-removebg-preview.png" width="120" height="50" class="d-inline-block align-top" alt="Logo">
-                    </a>
-                    <p>&copy; 2023 Groutz. All rights reserved.</p>
-                </div>
-                <div class="col-md-3">
-                    <h5>Contact Us</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Email: Groutz@gmail.com</a></li>
-                        <li><a href="#">Phone: +1 (123) 456-7890</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5>Follow Us</h5>
-                    <ul class="list-inline">
-                        <li class="list-inline-item"><a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a></li>
-                        <li class="list-inline-item"><a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a></li>
-                        <li class="list-inline-item"><a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a></li>
-                    </ul>
-                </div>
+<!-- Footer -->
+<footer class="bg-dark text-light text-center mt-auto">
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-md-5">
+                <a class="navbar-brand mr-auto" href="#">
+                    <img src="\media\item_images\Screenshot_1-removebg-preview.png" width="120" height="50" class="d-inline-block align-top" alt="Logo">
+                </a>
+                <p>&copy; 2023 Groutz. All rights reserved.</p>
+            </div>
+            <div class="col-md-3">
+                <h5>Contact Us</h5>
+                <ul class="list-unstyled contact-info">
+                    <li><i class="fas fa-envelope"></i> <a href="mailto:Groutz@gmail.com" target="_blank">Groutz@gmail.com</a></li>
+                    <li><i class="fas fa-phone"></i> <a href="tel:+11234567890" target="_blank">+1 (123) 456-7890</a></li>
+                    <li><i class="fas fa-map-marker-alt"></i> <a href="https://maps.app.goo.gl/Hn8Xg6WEgZJvuKyx7" target="_blank">123 Main Street, Cityville, Country</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h5>Follow Us</h5>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a></li>
+                    <li class="list-inline-item"><a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                    <li class="list-inline-item"><a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                </ul>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
+
 
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -239,11 +289,13 @@
     <script>
         $(document).ready(function () {
             $('#items-table').DataTable({
-            // Specify the orderable property for each column
-            "columnDefs": [
-                { "orderable": false, "targets": [4, 5] } // Indexes 4 and 5 are for Description and Image columns, respectively
-            ]
-        });
+                // Specify the orderable property for each column
+                "columnDefs": [
+                    { "orderable": false, "targets": [4, 5] },
+                    { "orderable": true, "targets": [6] }, // Making the Rating column sortable
+                    { "orderable": true, "targets": [7] }  // Making the Reviews column sortable
+                ]
+            });
     
             $('.rating').each(function () {
                 const itemId = $(this).data('item-id');
@@ -307,23 +359,49 @@
     
             // Fetch ratings count for each item asynchronously
             $('.rating-count').each(function () {
-        const itemId = $(this).data('item-id');
-        const ratingCountContainer = $(this);
-
-        $.ajax({
-            url: `/get_ratings_count/${itemId}/`,
-            method: 'GET',
-            success: function (data) {
-                const ratingCount = data.rating_count;
-                ratingCountContainer.text(`(${ratingCount} ratings)`);
-            },
-            error: function (err) {
-                console.error('Error:', err);
-            }
+                const itemId = $(this).data('item-id');
+                const ratingCountContainer = $(this);
+    
+                $.ajax({
+                    url: `/get_ratings_count/${itemId}/`,
+                    method: 'GET',
+                    success: function (data) {
+                        const ratingCount = data.rating_count;
+                        ratingCountContainer.text(`(${ratingCount} ratings)`);
+                    },
+                    error: function (err) {
+                        console.error('Error:', err);
+                    }
+                });
+            });
+    
+            // Sorting functionality for number of stars
+            $.fn.dataTable.ext.type.order['star-rating-pre'] = function (data) {
+                switch (data) {
+                    case '★☆☆☆☆':
+                        return 1;
+                    case '★★☆☆☆':
+                        return 2;
+                    case '★★★☆☆':
+                        return 3;
+                    case '★★★★☆':
+                        return 4;
+                    case '★★★★★':
+                        return 5;
+                    default:
+                        return 0;
+                }
+            };
+    
+            // Add custom sorting for the rating column
+            $('#items-table').DataTable().column(6, { order: 'star-rating' }).order('star-rating').draw();
+    
+            // Add custom sorting for the rating count column
+            $('#items-table').DataTable().column(7).order('number').draw();
         });
-    });
-});
     </script>
+    
+    
    
 </body>
 </html>

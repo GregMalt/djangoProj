@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Items Display</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Groutz</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-        /* Your existing styles */
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
+    <style>
         /* Recently Viewed section styling */
         .recently-viewed {
             margin-top: 50px;
@@ -18,12 +20,35 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Additional styles specific to this page */
-        /* ... */
+        /* Sticky Footer */
+        html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        .content {
+            flex: 1;
+        }
+
+        /* Google Maps */
+        .map-container {
+            position: relative;
+            overflow: hidden;
+            padding-top: 56.25%; /* Aspect ratio (height:width) */
+        }
+        .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
-    <header class="sticky-top">
+     <header class="sticky-top">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
                 <!-- Brand/logo to the left -->
@@ -42,12 +67,12 @@
                     <!-- Home and About Us links on the left -->
                     <ul class="navbar-nav ml-1">
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'about_us' %}">
-                                About Us
+                            <a class="nav-link" href="{% url 'index' %}">
+                                Home
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'index' %}">Home</a>
+                            <a class="nav-link" href="{% url 'about_us' %}">About Us</a>
                             
                         </li>
                     </ul>
@@ -74,42 +99,66 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav> 
     </header>
-    <!-- Main Content -->
-    <div class="container mt-4">
-        <div class="row">
-            <!-- Contact Information -->
-            <div class="col-md-6">
-                <h2>Contact Us</h2>
-                <ul>
-                    <li>Email: Groutz@gmail.com</li>
-                    <li>Phone: +1 (123) 456-7890</li>
-                    <!-- Additional contact information -->
-                </ul>
-                <!-- Google Maps Embed -->
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!..."></iframe>
-            </div>
 
-            <!-- Message Box -->
-            <div class="col-md-6">
-                <h2>Send us a Message</h2>
-                <form action="{% comment %} Your form submission URL {% endcomment %}" method="post">
-                    <!-- Message input fields -->
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
-                    </div>
-                    <!-- Additional fields like email, subject, message -->
-                    <!-- ... -->
-                    <button type="submit" class="btn btn-primary">Send</button>
-                </form>
+    <!-- Main Content -->
+    <div class="content">
+        <div class="container mt-4">
+            <div class="row">
+                <!-- Contact Information -->
+                <div class="col-md-6">
+                    <h2>Contact Us</h2>
+                    <ul class="list-unstyled">
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:Groutz@gmail.com">Groutz@gmail.com</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+11234567890">+1 (123) 456-7890</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            123 Main Street, Cityville, Country
+                        </li>
+                        <!-- Additional contact information -->
+                    </ul>
+                    <!-- Google Maps Embed -->
+                    <form>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2377.2163640445906!2d-2.163096787690542!3d53.42883957219789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487bb38909e24de3%3A0x9a99bcb41e5a14be!2sGreg%20St%2C%20Stockport%2C%20UK!5e0!3m2!1sen!2sgr!4v1701794089018!5m2!1sen!2sgr" width="400" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                            
+                    </form>
+                </div>
+
+                <!-- Message Box -->
+<div class="col-md-6">
+    <h2>Send us a Message</h2>
+    <form action="#" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+</div>
+
             </div>
         </div>
     </div>
-    
 
-    <footer class="bg-dark text-light text-center">
+    <!-- Footer -->
+    <footer class="bg-dark text-light text-center mt-auto">
         <div class="container py-4">
             <div class="row">
                 <div class="col-md-5">
@@ -120,9 +169,10 @@
                 </div>
                 <div class="col-md-3">
                     <h5>Contact Us</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Email: Groutz@gmail.com</a></li>
-                        <li><a href="#">Phone: +1 (123) 456-7890</a></li>
+                    <ul class="list-unstyled contact-info">
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:Groutz@gmail.com" target="_blank">Groutz@gmail.com</a></li>
+                        <li><i class="fas fa-phone"></i> <a href="tel:+11234567890" target="_blank">+1 (123) 456-7890</a></li>
+                        <li><i class="fas fa-map-marker-alt"></i> <a href="https://maps.app.goo.gl/Hn8Xg6WEgZJvuKyx7" target="_blank">123 Main Street, Cityville, Country</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3">
@@ -136,16 +186,14 @@
             </div>
         </div>
     </footer>
+    
+    
+    
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.25.0/dist/js/bootstrap-icons.min.js"></script>
     <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Your script -->
-    <script>
-        // Your JavaScript logic
-    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
