@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Groutz - Your Ultimate Electronics Store</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+
+        .landing-header {
+            background-color: #343a40;
+            color: #fff;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .landing-header h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .landing-header p {
+            font-size: 18px;
+        }
+
+        .landing-features {
+            padding: 50px 0;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .feature-description {
+            font-size: 16px;
+            color: #6c757d;
+        }
+
+        .categories {
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .category-card {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .category-card:hover {
+            box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+
+        .category-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .category-description {
+            font-size: 16px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                
+                <a class="navbar-brand mr-auto" href="/">
+                    <img src="\media\item_images\Screenshot_1-removebg-preview.png" width="120" height="50" class="d-inline-block align-top" alt="Logo">
+                </a>
+    
+                <!-- Navbar toggler button -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <!-- Collapsible content -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    
+                    <ul class="navbar-nav ml-1">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">Catalogue</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'about_us' %}">About Us</a>
+                        </li>
+                    </ul>
+    
+                    <!-- Profile, Logout, and Manage buttons. -->
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'view_profile' %}">
+                                <i class="bi bi-person-circle"></i> Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            {% if user.is_authenticated %}
+                                <a class="nav-link" href="{% url 'logout' %}"><i class="bi bi-box-arrow-left"></i> Logout</a>
+                            {% else %}
+                                <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-box-arrow-right"></i> Login</a>
+                            {% endif %}
+                        </li>
+                          
+                        {% if user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'admin:index' %}">
+                                    <i class="bi bi-tools"></i> Manage
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+   <!-- section for highlighting competitive prices -->
+    <section class="landing-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Welcome to Groutz - Your Ultimate Electronics Store</h1>
+                    <p>In Groutz, we offer the most competitive prices for high-quality electronics!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Landing Page Features -->
+    <div class="container landing-features">
+        <div class="row">
+            <div class="col-md-4">
+                <i class="bi bi-truck feature-icon"></i>
+                <h3 class="feature-title">Fast Delivery</h3>
+                <p class="feature-description">Get your products delivered at lightning speed!</p>
+            </div>
+            <div class="col-md-4">
+                <i class="bi bi-shield-lock feature-icon"></i>
+                <h3 class="feature-title">Secure Transactions</h3>
+                <p class="feature-description">Shop securely with our encrypted payment methods.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="bi bi-headset feature-icon"></i>
+                <h3 class="feature-title">Top-Quality Electronics</h3>
+                <p class="feature-description">Find the latest gadgets from top brands.</p>
+            </div>
+        </div>
+    </div>
+
+    
+<!-- Popular Categories -->
+<div class="container categories">
+    <h2>Explore Our Popular Categories</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <a href="{% url 'index' %}?category=headset">
+                <div class="category-card">
+                    <h3 class="category-title"id="headset" >Headsets</h3>
+                    <p class="category-description">Immerse yourself in high-quality audio experiences.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'index' %}?category=keyboard">
+                <div class="category-card">
+                    <h3 class="category-title" id="keyboard">Keyboards</h3>
+                    <p class="category-description">Enhance your typing experience with ergonomic keyboards.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'index' %}?category=monitor">
+                <div class="category-card">
+                    <h3 class="category-title" id="monitor">Monitors</h3>
+                    <p class="category-description">Discover crystal-clear displays for your computing needs.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<script>
+    // Get all category titles
+    const categoryTitles = document.querySelectorAll('.category-title');
+
+    // Function to handle click on category title
+    const handleClick = (event) => {
+        const categoryId = event.currentTarget.id; // Retrieve the ID of the clicked category title
+        window.location.href = `/index?category=${categoryId}`;
+    };
+
+    // Attach click event to each category title
+    categoryTitles.forEach(title => {
+        title.addEventListener('click', handleClick);
+    });
+</script>
+
+
+
+<footer class="bg-dark text-light text-center mt-auto">
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-md-5">
+                <a class="navbar-brand mr-auto" href="#">
+                    <img src="\media\item_images\Screenshot_1-removebg-preview.png" width="120" height="50" class="d-inline-block align-top" alt="Logo">
+                </a>
+                <p>&copy; 2023 Groutz. All rights reserved.</p>
+            </div>
+            <div class="col-md-3">
+                <h5>Contact Us</h5>
+                <ul class="list-unstyled contact-info">
+                    <li><i class="fas fa-envelope"></i> <a href="mailto:Groutz@gmail.com" target="_blank">Groutz@gmail.com</a></li>
+                    <li><i class="fas fa-phone"></i> <a href="tel:+11234567890" target="_blank">+1 (123) 456-7890</a></li>
+                    <li><i class="fas fa-map-marker-alt"></i> <a href="https://maps.app.goo.gl/Hn8Xg6WEgZJvuKyx7" target="_blank">123 Main Street, Cityville, Country</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h5>Follow Us</h5>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a></li>
+                    <li class="list-inline-item"><a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                    <li class="list-inline-item"><a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

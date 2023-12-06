@@ -104,11 +104,7 @@
             text-align: center;
         }
 
-        /* Add any new styling for the rating */
-        .stars {
-            font-size: 24px;
-            cursor: pointer;
-        }
+       
         
     </style>
 </head>
@@ -116,33 +112,32 @@
     <header class="sticky-top">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <!-- Brand/logo to the left -->
-                <!-- Replace this image source with your actual logo -->
-                <a class="navbar-brand mr-auto" href="#">
+                
+                <a class="navbar-brand mr-auto" href="/">
                     <img src="\media\item_images\Screenshot_1-removebg-preview.png" width="120" height="50" class="d-inline-block align-top" alt="Logo">
                 </a>
-
+    
                 <!-- Navbar toggler button -->
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
+    
                 <!-- Collapsible content -->
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <!-- Home and About Us links on the left -->
+                    
                     <ul class="navbar-nav ml-1">
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'index' %}">
-                                Home
-                            </a>
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">Catalogue</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'about_us' %}">About Us</a>
-                            
                         </li>
                     </ul>
-
-                    <!-- Profile, Logout, and Manage buttons -->
+    
+                    <!-- Profile, Logout, and Manage buttons. -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'view_profile' %}">
@@ -150,10 +145,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}">
-                                <i class="bi bi-box-arrow-right"></i> Logout
-                            </a>
+                            {% if user.is_authenticated %}
+                                <a class="nav-link" href="{% url 'logout' %}"><i class="bi bi-box-arrow-left"></i> Logout</a>
+                            {% else %}
+                                <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-box-arrow-right"></i> Login</a>
+                            {% endif %}
                         </li>
+                          
                         {% if user.is_superuser %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'admin:index' %}">
@@ -164,9 +162,8 @@
                     </ul>
                 </div>
             </div>
-        </nav> 
+        </nav>
     </header>
-
     <div class="container">
         <h1 class="text-center">Item Details</h1>
         <div class="row">

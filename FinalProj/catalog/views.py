@@ -182,3 +182,8 @@ from django.shortcuts import render
 def about_us(request):
     # Render the 'about_us.html' template
     return render(request, 'catalog/about_us.html')
+
+
+def landing_page(request):
+    return render(request, 'catalog/landing.html')
+

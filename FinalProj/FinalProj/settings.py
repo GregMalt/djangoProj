@@ -119,7 +119,7 @@ USE_I18N = True
 USE_TZ = True
 
 LOGIN_REDIRECT_URL = 'index'  # Replace 'index' with the name of your desired landing page after login
-LOGOUT_REDIRECT_URL = '/accounts/login/'
+LOGOUT_REDIRECT_URL = '/'
 
 
 # Static files (CSS, JavaScript, Images)
