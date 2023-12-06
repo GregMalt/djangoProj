@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(hj=3u6g%td00z3iy$)r+r1&=8v23s$ijf5y(phf91jt^ua7zj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -119,7 +119,7 @@ USE_I18N = True
 USE_TZ = True
 
 LOGIN_REDIRECT_URL = 'index'  # Replace 'index' with the name of your desired landing page after login
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -127,8 +127,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 # Default primary key field type
