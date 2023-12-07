@@ -15,34 +15,33 @@ from django.db import models
 import json
 
 def index(request):
-    if request.user.is_authenticated:
-        all_items = Item.objects.all()
-        all_items_json = json.dumps(list(all_items.values('id', 'ratings')))
-        recently_viewed_ids = request.session.get('recently_viewed', [])[-3:]
-        recently_viewed_items = [
-            get_object_or_404(Item, id=item_id) for item_id in recently_viewed_ids
-        ]
+    all_items = Item.objects.all()
+    all_items_json = json.dumps(list(all_items.values('id', 'ratings')))
+    recently_viewed_ids = request.session.get('recently_viewed', [])[-3:]
+    recently_viewed_items = [
+        get_object_or_404(Item, id=item_id) for item_id in recently_viewed_ids
+    ]
 
-        # Fetch price filter values from the request
-        min_price = request.GET.get('min_price')
-        max_price = request.GET.get('max_price')
+    # Fetch price filter values from the request
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
 
-        # Filter items based on price range if provided
-        if min_price and max_price:
-            all_items = all_items.filter(price__range=(min_price, max_price))
+    # Filter items based on price range if provided
+    if min_price and max_price:
+        all_items = all_items.filter(price__range=(min_price, max_price))
 
-        return render(
-            request,
-            'catalog/index.html',
-            {
-                'all_items': all_items,
-                'recently_viewed_items': recently_viewed_items,
-                'all_items_json': all_items_json,
-                'min_price': min_price,
-                'max_price': max_price,
-            }
-        )
-    return redirect('login')
+    return render(
+        request,
+        'catalog/index.html',
+        {
+            'all_items': all_items,
+            'recently_viewed_items': recently_viewed_items,
+            'all_items_json': all_items_json,
+            'min_price': min_price,
+            'max_price': max_price,
+        }
+    )
+
 
 def register(request):
     if request.method == 'POST':
@@ -186,4 +185,42 @@ def about_us(request):
 
 def landing_page(request):
     return render(request, 'catalog/landing.html')
+
+
+
+@login_required
+def add_to_cart(request, item_id):
+    item = get_object_or_404(Item, pk=item_id)
+    cart = request.session.get('cart', {})
+    cart[item_id] = {
+        'name': item.name,
+        'price': float(item.price),
+    }
+    request.session['cart'] = cart
+    request.session.modified = True  # Mark the session as modified
+    return redirect('cart_page')
+
+@login_required
+def cart_page(request):
+    cart = request.session.get('cart', {})
+    cart_items = []
+    total_price = 0
+
+    for item_id, item_data in cart.items():
+        item = get_object_or_404(Item, pk=item_id)
+        image_url = item.image.url if item.image else None
+        print(f"Item ID: {item_id}, Image URL: {image_url}")
+        cart_items.append({
+            'name': item_data['name'],
+            'price': item_data['price'],
+            'image_url': image_url,
+        })
+        total_price += item_data['price']
+
+
+    context = {
+        'cart_items': cart_items,
+        'total_price': total_price,
+    }
+    return render(request, 'catalog/cart_page.html', context)
 

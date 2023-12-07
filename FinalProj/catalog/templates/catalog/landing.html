@@ -111,6 +111,11 @@
                     <!-- Profile, Logout, and Manage buttons. -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
+                            <a class="nav-link" href="{% url 'cart_page' %}">
+                                <i class="bi bi-cart"></i> Cart
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'view_profile' %}">
                                 <i class="bi bi-person-circle"></i> Profile
                             </a>

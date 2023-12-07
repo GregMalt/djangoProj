@@ -26,6 +26,7 @@ urlpatterns = [
     path('profiles/', include('profiles.urls')),
     path('admin/logout/', admin.site.logout, name='admin_logout'),
     path('', include('catalog.urls')),
+    
 ]
 
 if settings.DEBUG:

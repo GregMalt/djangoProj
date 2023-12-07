@@ -76,6 +76,20 @@
     #items-table th {
         text-align: center; /* Center align all content in table cells */
     }
+    body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .content {
+            flex: 1;
+        }
+
+    .footer {
+        flex-shrink: 0;
+         width: 100%;
+    }
 </style>
 
     </style>
@@ -114,6 +128,11 @@
     
                     <!-- Profile, Logout, and Manage buttons. -->
                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'cart_page' %}">
+                                <i class="bi bi-cart"></i> Cart
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'view_profile' %}">
                                 <i class="bi bi-person-circle"></i> Profile
@@ -271,21 +290,19 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   
   <script>
+          $(document).ready(function () {
         const getQueryParam = (name) => {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(name);
         };
-    
-        $(document).ready(function () {
-            const category = getQueryParam('category');
-    
-            $('#items-table').DataTable({
-                "columnDefs": [
-                    { "orderable": false, "targets": [4, 5] },
-                    { "orderable": true, "targets": [6] },
-                    { "orderable": true, "targets": [7] }
-                ]
-            });
+
+        const category = getQueryParam('category');
+
+        $('#items-table').DataTable({
+            "columnDefs": [
+                { "orderable": false, "targets": [4, 5, 6, 7] } // Disable sorting for Description, Image, Rating, and Reviews columns
+            ],
+        });
     
             if (category) {
                 const table = $('#items-table').DataTable();
@@ -368,31 +385,7 @@
                     }
                 });
             });
-    
-            // Sorting functionality for number of stars
-            $.fn.dataTable.ext.type.order['star-rating-pre'] = function (data) {
-                switch (data) {
-                    case '★☆☆☆☆':
-                        return 1;
-                    case '★★☆☆☆':
-                        return 2;
-                    case '★★★☆☆':
-                        return 3;
-                    case '★★★★☆':
-                        return 4;
-                    case '★★★★★':
-                        return 5;
-                    default:
-                        return 0;
-                }
-            };
-    
-            // Add custom sorting for the rating column
-            $('#items-table').DataTable().column(6, { order: 'star-rating' }).order('star-rating').draw();
-    
-            // Add custom sorting for the rating count column
-            $('#items-table').DataTable().column(7).order('number').draw();
         });
-    </script>   
+</script>
 </body>
 </html>
